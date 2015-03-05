@@ -1,0 +1,45 @@
+Stem Orchestra Performance
+
+* Manual
+*keyboard shorcuts*
+- =m=: to view toolbar
+
+
+*SuperCollider*
+- Open =Stem_.scd= file
+
+*OSC Responders*
+
+1. =OF.projection(0,2)=
+2. =OF.filter(shaderID)=
+   1. shaderID: 0 -> no shader
+   2. shaderID: 1~9
+3. =OF.videoPos(videoID,frameNum)=
+4. =OF.videoSpeed(videoID,speed)=
+
+
+* Addons Dependencies
+- ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
+- ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
+- ofxOsc
+- ofxXmlSettings
+- ofxMSAInteractiveObject
+- ofxUI
+
+* folder content
+
+@ /Users/ari/Tools/openframeworks/of_v0.8.4_osx_release/apps/myApps/Inside_Outside:
+
+- total used in directory 64 available 139377067
+- drwxr-xr-x  12 ari  staff   408 Dec 16 14:25 .
+- drwxr-xr-x@ 11 ari  staff   374 Dec 16 14:16 ..
+- -rw-r--r--@  1 ari  staff  6148 Dec 16 14:32 .DS_Store
+- drwxr-xr-x   6 ari  staff   204 Dec 16 14:26 Inside_Outside.xcodeproj
+- -rw-------   1 ari  staff   382 Dec 16 14:16 Makefile
+- -rw-------   1 ari  staff   635 Dec 16 14:16 Project.xcconfig
+- drwxr-xr-x   8 ari  staff   272 Aug 28 18:41 SC_Code
+- -rw-r--r--   1 ari  staff    82 Dec 16 14:16 addons.make
+- drwxr-xr-x   5 ari  staff   170 Dec 16 14:26 bin
+- -rw-------   1 ari  staff  6545 Dec 16 14:16 config.make
+- -rw-------   1 ari  staff   670 Dec 16 14:16 openFrameworks-Info.plist
+- drwxr-xr-x   6 ari  staff   204 Dec 16 14:31 src

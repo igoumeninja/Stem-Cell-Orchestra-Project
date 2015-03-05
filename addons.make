@@ -1,0 +1,6 @@
+ofxOsc
+ofxVectorMath
+ofxXmlSettings
+ofxMSAInteractiveObject
+ofxMtlMapping2D
+ofxUI

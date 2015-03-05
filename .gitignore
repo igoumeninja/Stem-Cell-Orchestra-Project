@@ -1,0 +1,27 @@
+bin/data/video
+
+StemCellOrchestraProjectDebug.app
+
+# build files
+build
+*.a
+bin/libs
+bin/example
+bin/example_debug
+# mac Finder index files
+.DS_*
+# mac apps
+*.app*
+# xcode user project files
+*.pbxuser
+*.perspectivev3
+*.mode1*v3
+xcuserdata
+xcshareddata
+# codeblocks
+*.layout
+*.depend
+# linux
+*.o
+*.d
+*~
