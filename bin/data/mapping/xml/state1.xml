@@ -18,8 +18,8 @@
         <setting key="type">quad</setting>
         <outputVertices>
             <vertex x="454" y="96"></vertex>
-            <vertex x="1006" y="16"></vertex>
-            <vertex x="1021" y="766"></vertex>
+            <vertex x="655" y="442"></vertex>
+            <vertex x="654" y="529"></vertex>
             <vertex x="469" y="689"></vertex>
         </outputVertices>
         <inputPolygon>

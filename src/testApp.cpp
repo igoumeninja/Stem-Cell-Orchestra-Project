@@ -34,6 +34,7 @@ void testApp::setup(){
         cout << "video[" << i << "] total frames: " << video[i].getTotalNumFrames() << endl;
     }
     ofBackground(0);
+    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
 }
 
 //--------------------------------------------------------------
@@ -53,7 +54,25 @@ void testApp::update(){
 		receiver.getNextMessage( &m );
         
 		// map implementation
-
+        if ( m.getAddress() == "state" )	{
+            switch (m.getArgAsInt32(0)) {
+                case 1:
+                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
+                    break;
+                case 2:
+                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
+                    break;
+                case 3:
+                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state3.xml", "mapping/controls/mapping.xml");
+                    break;
+                case 4:
+                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state4.xml", "mapping/controls/mapping.xml");
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
         if ( m.getAddress() == "projection" )	{   projection[m.getArgAsInt32(0)] = m.getArgAsInt32(1);    }
         if ( m.getAddress() == "videoPos" )     {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
         if ( m.getAddress() == "videoSpeed" )     {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(0)); }
@@ -292,6 +311,9 @@ void testApp::keyReleased(int key){
 	if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, false);
 	if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, false);
 	if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, false);
+    
+	if (key == 'p') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
+	if (key == 'o') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
 }
 
 //--------------------------------------------------------------

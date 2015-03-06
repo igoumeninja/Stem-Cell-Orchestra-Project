@@ -23,41 +23,14 @@ Create an application for mapping projection triggerd by OSC messages. Use *Supe
 1. =phrase_1= : implement glitch effect
 2. =phrase_2= : switch videos beetwen projections
 
+*Create different scenes*
 
 #+BEGIN_EXAMPLE
-//PHRASES
-NetAddr(hostname:"localhost", port:57120).sendMsg("phrase_1")
-NetAddr(hostname:"localhost", port:57120).sendMsg("phrase_2")
-(
-~phrase_1.remove;
-~phrase_1 = OSCresponder.new(nil, "phrase_1", {
-	arg time, resp, msg;
-	("ok"+xrand(10)).postln;
-	{
-		20.do{ |i|
-			OF.filter(xrand(7));
-			0.1.wait;
-			OF.filter(0);
-		}
-	}.fork;
-} ).add;
-)
-
-(
-~phrase_2.remove;
-~phrase_2 = OSCresponder.new(nil, "phrase_2", {
-	arg time, resp, msg;
-	"phrase 2".postln;
-	{
-		20.do{ |i|
-			OF.projection(rrand(0,2).asInt,rrand(0,2).asInt);
-			0.1.wait;
-		}
-	}.fork;
-} ).add;
-)
-
+	if (key == 'p') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
+	if (key == 'o') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
 #+END_EXAMPLE
+
+
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
 - ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
