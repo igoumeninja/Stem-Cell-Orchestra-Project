@@ -34,7 +34,6 @@ void testApp::setup(){
         cout << "video[" << i << "] total frames: " << video[i].getTotalNumFrames() << endl;
     }
     ofBackground(0);
-
 }
 
 //--------------------------------------------------------------
@@ -59,19 +58,11 @@ void testApp::update(){
         if ( m.getAddress() == "videoPos" )     {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
         if ( m.getAddress() == "videoSpeed" )     {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(0)); }
 
-        if ( m.getAddress() == "imgID" )	{
-                randID_1 = int(ofRandom(59));
-                randID_2 = int(ofRandom(59));
-                randID_3 = int(ofRandom(59));
-                randID_4 = int(ofRandom(59));
-        }
-
 		if ( m.getAddress() == "filter" )	{
             switch ( m.getArgAsInt32(0) ) {
                 case 0:
                     myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, false);
                     myGlitch.setFx(OFXPOSTGLITCH_SHAKER			, false);
-
                     myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, false);
                     myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
                     myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
@@ -179,8 +170,6 @@ void testApp::update(){
   
     for (int i=0; i<3; i++) {
         video[i].update();
-        video[i].setVolume(0);
-        projection[i]=i;
     }
 }
 
