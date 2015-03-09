@@ -1,9 +1,9 @@
 // Stem Orchestra Performance
 
-OF.projection(0,2);
+OF.projection(1,0);
 OF.filter(2);
 OF.filter(0);
-OF.videoPos(0,0)
+OF.videoPos(2,0)
 
 (
 ~delayTime = 0.2;
@@ -16,20 +16,33 @@ k = {
 }.fork
 )
 
-//:Trigger responder
+//PHRASES
+NetAddr(hostname:"localhost", port:57120).sendMsg("phrase_1")
+NetAddr(hostname:"localhost", port:57120).sendMsg("phrase_2")
 (
-~responder1.remove;
-~responder1 = OSCresponder.new(nil, "onset", {
+~phrase_1.remove;
+~phrase_1 = OSCresponder.new(nil, "phrase_1", {
 	arg time, resp, msg;
-	"ok"+xrand(10).postln;
+	("ok"+xrand(10)).postln;
 	{
-		1.do{ |i|
-			OF.imgID(xrand(57));
-			0.04.wait;
+		20.do{ |i|
 			OF.filter(xrand(7));
 			0.1.wait;
 			OF.filter(0);
+		}
+	}.fork;
+} ).add;
+)
 
+(
+~phrase_2.remove;
+~phrase_2 = OSCresponder.new(nil, "phrase_2", {
+	arg time, resp, msg;
+	"phrase 2".postln;
+	{
+		20.do{ |i|
+			OF.projection(rrand(0,2).asInt,rrand(0,2).asInt);
+			0.1.wait;
 		}
 	}.fork;
 } ).add;
