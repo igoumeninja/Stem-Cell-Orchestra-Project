@@ -1,6 +1,60 @@
 // Stem Orchestra Performance
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,1,1,1,1,1,1,1,1,0,1,1,0,1)
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,11)
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+(
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+)
+)
 
+(
+~delayTime = 0.2;
+k = {
+	inf.do{
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+	rrand(1,16).asInt,
+);
+		~delayTime.wait;
+	}
+}.fork
+)
+
+NetAddr(hostname:"localhost",port:12345).sendMsg("/videoSpeed",0,4)
+
+OF.projection(0,1);
 OF.projection(1,0);
+OF.projection(2,2);
 OF.filter(2);
 OF.filter(0);
 OF.videoPos(2,0)

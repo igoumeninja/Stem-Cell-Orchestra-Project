@@ -1,352 +1,265 @@
+/*
+  Start edit with Emacs
+  Aris Bezas
+*/
+#include <string>
+using namespace std;
 #include "testApp.h"
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	ofSetVerticalSync(true);
-	ofSetFrameRate(60);
-	camera.setDistance(400);
-	ofSetCircleResolution(3);
+  ofSetVerticalSync(true);
+  ofSetFrameRate(60);
+  camera.setDistance(400);
+  ofSetCircleResolution(3);
+  
+  cout << "listening for osc messages on port " << 12345 << "\n";
+  receiver.setup( 12345 );
+  current_msg_string = 0;
+  
+  
+  lenna.loadImage("lenna.png");
+  bDrawLenna = false;
+  bShowHelp  = true;
+  myFbo.allocate(1440,900);
+  
+  myGlitch.setup(&myFbo);
+  
+  _mapping = new ofxMtlMapping2D();
+  _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
 
-    cout << "listening for osc messages on port " << 12345 << "\n";
-    receiver.setup( 12345 );
-    current_msg_string = 0;
 
-    
-	lenna.loadImage("lenna.png");
-	bDrawLenna = false;
-	bShowHelp  = true;
-	myFbo.allocate(1024,768);
-
-	myGlitch.setup(&myFbo);
-    
-    _mapping = new ofxMtlMapping2D();
-    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
-    
-    
-    video[0].loadMovie("video/video01.mp4");
-    video[1].loadMovie("video/video02.mov");
-    video[2].loadMovie("video/video03.mp4");
-
-    for (int i=0; i<3; i++) {
-        video[i].play();
+    for (int i=0; i<NUM_VIDEOS; i++) {
+        string tempInt;
+        stringstream convert; // stringstream used for the conversion
+        convert << i;//add the value of Number to the characters in the stream
+        tempInt = convert.str();
+        string tempVideoDir = "video/256g/" + tempInt + ".mp4";
+        video[i].loadMovie(tempVideoDir);
         video[i].setVolume(0);
-        projection[i]=i;
-        cout << "video[" << i << "] total frames: " << video[i].getTotalNumFrames() << endl;
-    }
-    ofBackground(0);
-    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
+        videoPlay[i] = false;
+        video[i].play();
+        //cout << "video[" << i << "] total frames: " << video[i].getTotalNumFrames() << endl;
+  }
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    _mapping->update();
-    ofBackground(0, 0, 0);
-	for ( int i=0; i<NUM_MSG_STRINGS; i++ )
-	{
-		if ( timers[i] < ofGetElapsedTimef() )
-			msg_strings[i] = "";
-	}
-    
-	// check for waiting messages
-	while( receiver.hasWaitingMessages() )
-	{
-		ofxOscMessage m;
-		receiver.getNextMessage( &m );
-        
-		// map implementation
-        if ( m.getAddress() == "state" )	{
-            switch (m.getArgAsInt32(0)) {
-                case 1:
-                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
-                    break;
-                case 2:
-                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
-                    break;
-                case 3:
-                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state3.xml", "mapping/controls/mapping.xml");
-                    break;
-                case 4:
-                    _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state4.xml", "mapping/controls/mapping.xml");
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-        if ( m.getAddress() == "projection" )	{   projection[m.getArgAsInt32(0)] = m.getArgAsInt32(1);    }
-        if ( m.getAddress() == "videoPos" )     {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
-        if ( m.getAddress() == "videoSpeed" )     {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(0)); }
-
-		if ( m.getAddress() == "filter" )	{
-            switch ( m.getArgAsInt32(0) ) {
-                case 0:
-                    myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, false);
-                    myGlitch.setFx(OFXPOSTGLITCH_SHAKER			, false);
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, false);
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, false);
-                    break;
-
-                case 1:
-                    myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, true);
-                    break;
-                case 2:
-                    myGlitch.setFx(OFXPOSTGLITCH_SHAKER			, true);
-                    break;
-                case 3:
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, true);
-                    break;
-                case 4:
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, true);
-                    break;
-                case 5:
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, true);
-                    break;
-                case 6:
-                    myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, true);
-                    break;
-                default:
-                    // Code
-                    break;
-            }        }
-        
-		if ( m.getAddress() == "img" )	{
-			
-			//cout << m.getNumArgs() << endl;
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // GL_SRC_ALPHA_SATURATE,GL_ONE     GL_SRC_ALPHA, GL_ONE
-			switch (m.getNumArgs())	{
-				case 1:
-					ofFill();
-					ofSetColor(0xFFFFFF);
-					//image[m.getArgAsInt32(0)].draw(m.getArgAsInt32(1), 0, 0, ofGetWidth(), ofGetHeight());
-                    break;
-				case 4:
-					if (image[m.getArgAsInt32(0)].width/image[m.getArgAsInt32(0)].height > 1.25)	{
-						
-						//image[id].draw(x,y,width,height);
-						
-					}	else	{
-					}
-                    break;
-				case 5:
-					ofFill();
-					ofSetHexColor(0xFFFFFF);
-					image[m.getArgAsInt32(0)].draw(m.getArgAsInt32(1), m.getArgAsInt32(2),m.getArgAsInt32(3),m.getArgAsInt32(4));
-                    ofSetColor(255, 0, 0);
-                    ofRect(100, 200, 300, 340);
-                    
-                    cout << "ok" << endl;
-                    break;
-				case 8:
-					ofNoFill();
-					ofSetColor(0xFFFFFF);
-					ofBeginShape();
-					ofRotateX(m.getArgAsInt32(5));
-					ofRotateY(m.getArgAsInt32(6));
-					ofRotateZ(m.getArgAsInt32(7));
-					image[m.getArgAsInt32(0)].draw(m.getArgAsInt32(1), m.getArgAsInt32(2),m.getArgAsInt32(3),m.getArgAsInt32(4));
-					ofEndShape();
-                    break;
-				case 11:
-					//cout << m.getNumArgs() << endl;
-					ofNoFill();
-					ofSetColor(0xFFFFFF);
-					ofBeginShape();
-					ofTranslate(m.getArgAsInt32(5),m.getArgAsInt32(6),m.getArgAsInt32(7));
-					ofRotateX(m.getArgAsInt32(8));
-					ofRotateY(m.getArgAsInt32(9));
-					ofRotateZ(m.getArgAsInt32(10));
-					image[m.getArgAsInt32(0)].draw(m.getArgAsInt32(1), m.getArgAsInt32(2),m.getArgAsInt32(3),m.getArgAsInt32(4));
-					ofEndShape();
-                    break;
-				case 14:
-					cout << m.getNumArgs() << endl;
-					ofNoFill();
-					ofSetColor(0xFFFFFF);
-					ofBeginShape();
-					ofTranslate(m.getArgAsInt32(5),m.getArgAsInt32(6),m.getArgAsInt32(7));
-					ofScale(m.getArgAsInt32(8),m.getArgAsInt32(9),m.getArgAsInt32(10));
-					ofRotateX(m.getArgAsInt32(11));
-					ofRotateY(m.getArgAsInt32(12));
-					ofRotateZ(m.getArgAsInt32(13));
-					image[m.getArgAsInt32(0)].draw(m.getArgAsInt32(1), m.getArgAsInt32(2),m.getArgAsInt32(3),m.getArgAsInt32(4));
-					ofEndShape();
-                    break;
-                    
-			}
-		}
-		if ( m.getAddress() == "rect")	{
-			ofFill();
-			ofSetColor(0,0,0);
-			ofRect(m.getArgAsInt32(0), m.getArgAsInt32(1), m.getArgAsInt32(2), m.getArgAsInt32(3));
-		}
-		if ( m.getAddress() == "loadImage" )	{
-			image[m.getArgAsInt32(0)].loadImage(m.getArgAsString(1));
-			printf("Load Image: %i \n", m.getArgAsInt32(0));
-		}		
-	}
-  
-    for (int i=0; i<3; i++) {
-        video[i].update();
+  _mapping->update();
+  ofBackground(0, 0, 0);
+  for ( int i=0; i<NUM_MSG_STRINGS; i++ )
+    {
+      if ( timers[i] < ofGetElapsedTimef() )
+        msg_strings[i] = "";
     }
+  
+  // check for waiting messages
+  while( receiver.hasWaitingMessages() )
+    {
+      ofxOscMessage m;
+      receiver.getNextMessage( &m );
+      
+      if ( m.getAddress() == "/projection" )	{
+        for (int i = 0; i < NUM_PROJECTION; i++) {
+          videoProjection[i] = false;
+          videoProjection[0] = true;          
+          videoPlay[i] = false;
+          videoPlay[i] = false;          
+        }
+        videoProjection[0] = true;          
+        videoPlay[0] = true;          
+
+        for (int i = 0; i < m.getNumArgs(); i++) {
+          if(m.getArgAsInt32(i) != 0) {
+            videoID[i] = m.getArgAsInt32(i);
+            videoProjection[i] = true;
+            videoPlay[m.getArgAsInt32(i)] = true;
+          }
+        }
+//        for (int i=0; i<m.getNumArgs(); i++) {
+//            videoProjection[i] = true;
+//            videoPlay[m.getArgAsInt32(i)] = true;
+//            videoID[i] = m.getArgAsInt32(i);
+//        }
+      }
+      
+      if ( m.getAddress() == "state" )	{
+        switch (m.getArgAsInt32(0)) {
+        case 1:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml"); break;
+        case 2:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml"); break;
+        case 3:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state3.xml", "mapping/controls/mapping.xml"); break;
+        case 4:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state4.xml", "mapping/controls/mapping.xml"); break;
+          
+        default:
+          break;
+        }
+      }
+      if ( m.getAddress() == "videoPos" )   {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
+      if ( m.getAddress() == "/videoSpeed" ) {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(1)); }
+      if ( m.getAddress() == "filter" )	    {
+        switch ( m.getArgAsInt32(0) ) {
+        case 0:
+          myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, false);
+          myGlitch.setFx(OFXPOSTGLITCH_SHAKER		, false);
+          myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , false);
+          myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
+          myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
+          myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, false);
+          break;          
+        case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,    true);break;
+        case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,         true);break;
+        case 3: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST,true);break;
+        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,   true);break;
+        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,    true);break;
+        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE,  true);break;
+        default: break;
+        }
+      }
+    }
+
+  for (int i = 0; i < NUM_VIDEOS; i++) {
+      if(videoPlay[i]) {video[i].update();}
+  }
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    _mapping->bind();
-    myFbo.begin();
-    myGlitch.generateFx();
-    ofSetHexColor(0xFFFFFF);
-    
-    // Projection 1
-    
-    switch (projection[0]) {
-        case 0:
-            video[0].draw(40,20,200,200);
-            break;
-        case 1:
-            video[1].draw(40,20,200,200);
-            break;
-        case 2:
-            video[2].draw(40,20,200,200);
-            break;
-            
-        default:
-            break;
-    }
-    
-    switch (projection[1]) {
-        case 0:
-            video[0].draw(260,20,200,200);
-            break;
-        case 1:
-            video[1].draw(260,20,200,200);
-            break;
-        case 2:
-            video[2].draw(260,20,200,200);
-            break;
-            
-        default:
-            break;
-    }
-    
-    switch (projection[2]) {
-        case 0:
-            video[0].draw(480,20,200,200);
-            break;
-        case 1:
-            video[1].draw(480,20,200,200);
-            break;
-        case 2:
-            video[2].draw(480,20,200,200);
-            break;
-            
-        default:
-            break;
-    }
-    myFbo.end();
 
-    myFbo.draw(0, 0);
-    _mapping->unbind();
-    _mapping->draw();
+  _mapping->bind();
+  myFbo.begin();
+  myGlitch.generateFx();
+  ofBackground(0,0,0);
+  ofSetHexColor(0xFFFFFF);
+  
+  for (int i = 0; i < NUM_PROJECTION; i++) {
+    //  if(projection[i]) video[0].draw(50,  10,  600, 480);
+  }
+  
+  
+  if(videoProjection[0])  video[0].draw(   50,   10, 640, 480);
+    
+  if(videoProjection[1])  video[videoID[1]].draw(   50,  500, 256, 144);
+  if(videoProjection[2])  video[videoID[2]].draw(   50,  650, 256, 144);
+  if(videoProjection[3])  video[videoID[3]].draw(   310, 500, 256, 144);
+  if(videoProjection[4])  video[videoID[4]].draw(   310, 650, 256, 144);
+  if(videoProjection[5])  video[videoID[5]].draw(   580, 500, 256, 144);
+  if(videoProjection[6])  video[videoID[6]].draw(   580, 650, 256, 144);
+  if(videoProjection[7])  video[videoID[7]].draw(   850,  50, 256, 144);
+  if(videoProjection[8])  video[videoID[8]].draw(   850, 200, 256, 144);
+  if(videoProjection[9])  video[videoID[9]].draw(   850, 350, 256, 144);
+  if(videoProjection[10]) video[videoID[10]].draw(  850, 500, 256, 144);
+  if(videoProjection[11]) video[videoID[11]].draw(  850, 650, 256, 144);
+  if(videoProjection[12]) video[videoID[12]].draw( 1170,  50, 256, 144);
+  if(videoProjection[13]) video[videoID[13]].draw( 1170, 200, 256, 144);
+  if(videoProjection[14]) video[videoID[14]].draw( 1170, 350, 256, 144);
+  if(videoProjection[15]) video[videoID[15]].draw( 1170, 500, 256, 144);
+  if(videoProjection[16]) video[videoID[16]].draw( 1170, 650, 256, 144);
 
+  
+  
+  /*   
+       for (int i = 0; i < 3; i++) {
+       switch (projection[i]) {
+       case 0: video[0].update(); video[0].draw(50,60,600,480); break;
+       //case 0: if(!video[0].isPlaying()){video[0].play();}; video[0].update(); video[0].draw(50,60,100,60); break;
+       //case 1: video[1].update(); video[1].draw(155,60,100,60); break;
+       //case 2: video[2].update(); video[2].draw(260,60,100,60); break;
+       default: break;
+       }
+       }
+  */
+  /*
+  // Projection 
+  switch (projection[0]) {
+  case 0: video[0].setVolume(0); video[0].update(); video[0].draw(40,20,200,200); break;
+  case 1: video[1].setVolume(0); video[1].update(); video[1].draw(40,20,200,200); break;
+  case 2: video[2].setVolume(0); video[2].update(); video[2].draw(40,20,200,200); break;
+  default: break;
+  }
+  
+  switch (projection[1]) {
+  case 0: video[0].setVolume(0); video[0].update(); video[0].draw(260,20,200,200); break;
+  case 1: video[1].setVolume(0); video[1].update(); video[1].draw(260,20,200,200); break;
+  case 2: video[2].setVolume(0); video[2].update(); video[2].draw(260,20,200,200); break;
+  default: break;
+  }
+  
+  switch (projection[2]) {
+  case 0: video[0].setVolume(0); video[0].update(); video[0].draw(480,20,200,200); break;
+  case 1: video[1].setVolume(0); video[1].update(); video[1].draw(480,20,200,200); break;
+  case 2: video[2].setVolume(0); video[2].update(); video[2].draw(480,20,200,200); break;
+  default: break;
+  }
+  */
+  myFbo.end();
+  
+  myFbo.draw(0, 0);
+  _mapping->unbind();
+  _mapping->draw();
+  
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-	if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, true);
-	if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW			, true);
-	if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER			, true);
-	if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER		, true);
-	if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST			, true);
-	if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE		, true);
-	if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE			, true);
-	if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN		, true);
-	if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL			, true);
-	if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT			, true);
-
-	if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, true);
-	if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, true);
-	if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, true);
-	if (key == 'r') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, true);
-	if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, true);
-	if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, true);
-	if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, true);
-
-	if (key == 'l') bDrawLenna ^= true;
-	if (key == 'h') bShowHelp ^= true;
-    
-	if(key == 'f' or key == 'F'){
-		int previousWindowX, previousWindowY;
-		
-		if(ofGetWindowMode() == 0){
-            
-			ofSetFullscreen(true);
-			ofBackground(0, 0, 0);
-		}else{
-			ofSetFullscreen(false);
-			ofBackground(0, 0, 0);
-		}  
-	}
+  if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE, true);
+  if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW	  , true);
+  if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER	  , true);
+  if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER  , true);
+  if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST	  , true);
+  if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE	  , true);
+  if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE	  , true);
+  if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN	  , true);
+  if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL	  , true);
+  if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT	  , true);
+  if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , true);
+  if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, true);
+  if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, true);
+  if (key == 'r') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, true);
+  if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, true);
+  if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, true);
+  if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, true);
+  if (key == 'l') bDrawLenna ^= true;
+  if (key == 'h') bShowHelp ^= true;
+  
+  if(key == 'f' or key == 'F'){
+    int previousWindowX, previousWindowY;
+    if(ofGetWindowMode() == 0){
+      ofSetFullscreen(true);
+      ofBackground(0, 0, 0);
+    }else{
+      ofSetFullscreen(false);
+      ofBackground(0, 0, 0);
+    }  
+  }
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-	if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, false);
-	if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW			, false);
-	if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER			, false);
-	if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER		, false);
-	if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST			, false);
-	if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE		, false);
-	if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE			, false);
-	if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN		, false);
-	if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL			, false);
-	if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT			, false);
-
-	if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, false);
-	if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
-	if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
-	if (key == 'r') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, false);
-	if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, false);
-	if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, false);
-	if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, false);
-    
-	if (key == 'p') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
-	if (key == 'o') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
+  if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE, false);
+  if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW	  , false);
+  if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER	  , false);
+  if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER  , false);
+  if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST	  , false);
+  if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE	  , false);
+  if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE	  , false);
+  if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN	  , false);
+  if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL	  , false);
+  if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT	  , false);
+  if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , false);
+  if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
+  if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
+  if (key == 'r') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, false);
+  if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, false);
+  if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, false);
+  if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, false);
+  if (key == 'p') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
+  if (key == 'o') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
 }
 
-//--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
-
-}
+void testApp::mouseMoved(int x, int y ){}
+void testApp::mouseDragged(int x, int y, int button){}
+void testApp::mousePressed(int x, int y, int button){}
+void testApp::mouseReleased(int x, int y, int button){}
+void testApp::windowResized(int w, int h){}
+void testApp::gotMessage(ofMessage msg){}
+void testApp::dragEvent(ofDragInfo dragInfo){ }
