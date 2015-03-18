@@ -3,9 +3,9 @@
         <setting key="type">quad</setting>
         <outputVertices>
             <vertex x="208" y="131"></vertex>
-            <vertex x="465" y="130"></vertex>
-            <vertex x="469" y="333"></vertex>
-            <vertex x="206" y="333"></vertex>
+            <vertex x="507" y="96"></vertex>
+            <vertex x="514" y="317"></vertex>
+            <vertex x="208" y="231"></vertex>
         </outputVertices>
         <inputPolygon>
             <vertex x="52" y="12"></vertex>

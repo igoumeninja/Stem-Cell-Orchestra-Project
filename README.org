@@ -1,6 +1,6 @@
-*Stem Orchestra Performance Project*
+#+TITLE: Stem Orchestra Performance Project
 
-Create an application for mapping projection triggerd by OSC messages. Use *SuperCollider* as an interpreter language.
+/Create an application for mapping projection triggerd by OSC messages. Use *SuperCollider* as an interpreter language./
 
 * Manual
 *keyboard shorcuts*
@@ -26,8 +26,16 @@ Create an application for mapping projection triggerd by OSC messages. Use *Supe
 *Create different scenes*
 
 #+BEGIN_EXAMPLE
-	if (key == 'p') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
-	if (key == 'o') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
+if ( m.getAddress() == "state" ){
+  switch (m.getArgAsInt32(0)) {
+  case 0:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml"); break;
+  case 1:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml"); break;
+  case 2:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml"); break;
+  case 3:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state3.xml", "mapping/controls/mapping.xml"); break;
+  case 4:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state4.xml", "mapping/controls/mapping.xml"); break;
+  default:break;
+  }
+}
 #+END_EXAMPLE
 
 

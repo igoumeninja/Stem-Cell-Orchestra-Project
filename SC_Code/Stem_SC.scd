@@ -1,8 +1,20 @@
 // Stem Orchestra Performance
+
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,2,3,4,5,6,7,8,9,10)
+NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",1,1,1,1,1,1,1,1,1,1,1)
+NetAddr(hostname:"localhost",port:12345).sendMsg("/videoSec",1,54)
+OF.state("150318_1");
+OF.state("main");
+
 NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,1,1,1,1,1,1,1,1,0,1,1,0,1)
 NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,11)
 NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
-(
+
+/projection  ,0,1,2,3,4,5,6,7,8,9
+/projection  ,0,0,0,0,0,0,0,0,0,0
+/projection  ,0,2,0,0,0,6,13,14,0
+
+
 NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,
 	rrand(1,16).asInt,
 	rrand(1,16).asInt,
@@ -20,7 +32,6 @@ NetAddr(hostname:"localhost",port:12345).sendMsg("/projection",0,
 	rrand(1,16).asInt,
 	rrand(1,16).asInt,
 	rrand(1,16).asInt,
-)
 )
 
 (
@@ -55,9 +66,13 @@ NetAddr(hostname:"localhost",port:12345).sendMsg("/videoSpeed",0,4)
 OF.projection(0,1);
 OF.projection(1,0);
 OF.projection(2,2);
-OF.filter(2);
 OF.filter(0);
-OF.videoPos(2,0)
+OF.state("main");
+OF.state("day1");
+OF.videoPos(0,0)
+
+
+OF.videoSpeed(0,10)
 
 (
 ~delayTime = 0.2;

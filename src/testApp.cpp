@@ -8,8 +8,8 @@ using namespace std;
 
 //--------------------------------------------------------------
 void testApp::setup(){
-  ofSetVerticalSync(true);
-  ofSetFrameRate(60);
+  //ofSetVerticalSync(true);
+  ofSetFrameRate(30);
   camera.setDistance(400);
   ofSetCircleResolution(3);
   
@@ -39,7 +39,7 @@ void testApp::setup(){
         video[i].setVolume(0);
         videoPlay[i] = false;
         video[i].play();
-        //cout << "video[" << i << "] total frames: " << video[i].getTotalNumFrames() << endl;
+        cout << "video[" << i << "]:frames: " << video[i].getTotalNumFrames() << ",framerate:" << video[i].getTotalNumFrames()/video[i].getDuration() <<endl;
   }
 }
 
@@ -62,39 +62,33 @@ void testApp::update(){
       if ( m.getAddress() == "/projection" )	{
         for (int i = 0; i < NUM_PROJECTION; i++) {
           videoProjection[i] = false;
-          videoProjection[0] = true;          
-          videoPlay[i] = false;
-          videoPlay[i] = false;          
         }
-        videoProjection[0] = true;          
+        for (int i = 0; i < NUM_VIDEOS; i++) {
+              videoPlay[i] = false;
+        }
+
+        videoProjection[0] = true;
         videoPlay[0] = true;          
 
-        for (int i = 0; i < m.getNumArgs(); i++) {
+        for (int i = 1; i < m.getNumArgs(); i++) {
           if(m.getArgAsInt32(i) != 0) {
             videoID[i] = m.getArgAsInt32(i);
             videoProjection[i] = true;
             videoPlay[m.getArgAsInt32(i)] = true;
           }
         }
-//        for (int i=0; i<m.getNumArgs(); i++) {
-//            videoProjection[i] = true;
-//            videoPlay[m.getArgAsInt32(i)] = true;
-//            videoID[i] = m.getArgAsInt32(i);
-//        }
       }
-      
       if ( m.getAddress() == "state" )	{
-        switch (m.getArgAsInt32(0)) {
-        case 1:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml"); break;
-        case 2:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml"); break;
-        case 3:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state3.xml", "mapping/controls/mapping.xml"); break;
-        case 4:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state4.xml", "mapping/controls/mapping.xml"); break;
-          
-        default:
-          break;
+        if(m.getArgAsString(0) == "main") {
+          _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
+        } else {
+          string tempVideoDir = "mapping/xml/state_" + m.getArgAsString(0) + ".xml";
+          _mapping->init(ofGetWidth(), ofGetHeight(), tempVideoDir, "mapping/controls/mapping.xml");
         }
       }
+        if ( m.getAddress() == "/test" )   {   cout << "OK" << endl; }
       if ( m.getAddress() == "videoPos" )   {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
+      if ( m.getAddress() == "/videoSec" )   { video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(1)*24);}
       if ( m.getAddress() == "/videoSpeed" ) {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(1)); }
       if ( m.getAddress() == "filter" )	    {
         switch ( m.getArgAsInt32(0) ) {
@@ -131,11 +125,6 @@ void testApp::draw(){
   ofBackground(0,0,0);
   ofSetHexColor(0xFFFFFF);
   
-  for (int i = 0; i < NUM_PROJECTION; i++) {
-    //  if(projection[i]) video[0].draw(50,  10,  600, 480);
-  }
-  
-  
   if(videoProjection[0])  video[0].draw(   50,   10, 640, 480);
     
   if(videoProjection[1])  video[videoID[1]].draw(   50,  500, 256, 144);
@@ -148,12 +137,12 @@ void testApp::draw(){
   if(videoProjection[8])  video[videoID[8]].draw(   850, 200, 256, 144);
   if(videoProjection[9])  video[videoID[9]].draw(   850, 350, 256, 144);
   if(videoProjection[10]) video[videoID[10]].draw(  850, 500, 256, 144);
-  if(videoProjection[11]) video[videoID[11]].draw(  850, 650, 256, 144);
-  if(videoProjection[12]) video[videoID[12]].draw( 1170,  50, 256, 144);
-  if(videoProjection[13]) video[videoID[13]].draw( 1170, 200, 256, 144);
-  if(videoProjection[14]) video[videoID[14]].draw( 1170, 350, 256, 144);
-  if(videoProjection[15]) video[videoID[15]].draw( 1170, 500, 256, 144);
-  if(videoProjection[16]) video[videoID[16]].draw( 1170, 650, 256, 144);
+//  if(videoProjection[11]) video[videoID[11]].draw(  850, 650, 256, 144);
+//  if(videoProjection[12]) video[videoID[12]].draw( 1170,  50, 256, 144);
+//  if(videoProjection[13]) video[videoID[13]].draw( 1170, 200, 256, 144);
+//  if(videoProjection[14]) video[videoID[14]].draw( 1170, 350, 256, 144);
+//  if(videoProjection[15]) video[videoID[15]].draw( 1170, 500, 256, 144);
+//  if(videoProjection[16]) video[videoID[16]].draw( 1170, 650, 256, 144);
 
   
   

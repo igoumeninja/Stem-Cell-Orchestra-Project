@@ -7,8 +7,8 @@
 
 #define PORT 12345
 #define NUM_MSG_STRINGS 20
-#define NUM_VIDEOS 18
-#define NUM_PROJECTION 18
+#define NUM_VIDEOS 15
+#define NUM_PROJECTION 11
 
 class testApp : public ofBaseApp{
 
