@@ -3,8 +3,9 @@
   the project is hosted at https://github.com/igoumeninja/Stem-Cell-Orchestra-Project
   Aris Bezas
 */
+
 #include <string>
-using namespace std;
+//using namespace std;
 #include "testApp.h"
 
 //--------------------------------------------------------------
@@ -116,12 +117,12 @@ void testApp::update(){
           myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
           myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
           break;          
-        case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,    true);break;
-        case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,         true);break;
-        case 3: myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER,         true);break;          
-        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST,true);break;
-        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,   true);break;
-        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,    true);break;
+        case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,     true);break;
+        case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,          true);break;
+        case 3: myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER,       true);break;          
+        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, true);break;
+        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,    true);break;
+        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,     true);break;
         default: break;
         }
       }

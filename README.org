@@ -37,14 +37,6 @@
 
 1. =state, "150318_1"_=
 2. =state, "main"_=
-
-* openFrameworks Addons Dependencies
-- ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
-- ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
-- ofxOsc
-- ofxXmlSettings
-- ofxMSAInteractiveObject
-- ofxUI
 * Use Emacs as interpreter for sending OSC messages
 #+BEGIN_EXAMPLE
 
@@ -59,3 +51,11 @@
 
 (osc-send-message of-client "/filter" 3 2000)
 #+END_EXAMPLE
+
+* openFrameworks Addons Dependencies
+- ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
+- ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
+- ofxOsc
+- ofxXmlSettings
+- ofxMSAInteractiveObject
+- ofxUI
