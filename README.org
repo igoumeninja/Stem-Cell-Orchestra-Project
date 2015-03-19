@@ -5,13 +5,16 @@
 * Manual
 *keyboard shorcuts*
 - =m=: to view toolbar
+- =f=: to switch to fulscreen
 
 *SuperCollider*
 - Open =Stem_SC.scd= file
 
 *OSC Responders*
 
-1. =OF.projection(0,2)=
+1. Send video to projection
+   1. OSC message name =/projection= with arguments =0,1,2,3,4,5,6,7,8,9=
+   2. OSC message name =/projection= with arguments =0,0,0,0,0,0,0,0,0,0= (send video 0 to all projection)
 2. =OF.filter(shaderID)=
    1. shaderID: 0 -> no shader
    2. shaderID: 1~9
@@ -25,19 +28,8 @@
 
 *Create different scenes*
 
-#+BEGIN_EXAMPLE
-if ( m.getAddress() == "state" ){
-  switch (m.getArgAsInt32(0)) {
-  case 0:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml"); break;
-  case 1:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml"); break;
-  case 2:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml"); break;
-  case 3:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state3.xml", "mapping/controls/mapping.xml"); break;
-  case 4:_mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state4.xml", "mapping/controls/mapping.xml"); break;
-  default:break;
-  }
-}
-#+END_EXAMPLE
-
+1. =OF.state("150318_1");=
+2. =OF.state("main");=
 
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
@@ -46,5 +38,3 @@ if ( m.getAddress() == "state" ){
 - ofxXmlSettings
 - ofxMSAInteractiveObject
 - ofxUI
-* TODO things for an interesting performance
-- [ ] Createe videos and find interesting positions inside them!

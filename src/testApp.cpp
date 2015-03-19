@@ -95,17 +95,17 @@ void testApp::update(){
         case 0:
           myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, false);
           myGlitch.setFx(OFXPOSTGLITCH_SHAKER		, false);
+          myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER	, false);
           myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , false);
           myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
           myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
-          myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, false);
           break;          
         case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,    true);break;
         case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,         true);break;
-        case 3: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST,true);break;
-        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,   true);break;
-        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,    true);break;
-        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE,  true);break;
+        case 3: myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER,         true);break;          
+        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST,true);break;
+        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,   true);break;
+        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,    true);break;
         default: break;
         }
       }
@@ -137,49 +137,6 @@ void testApp::draw(){
   if(videoProjection[8])  video[videoID[8]].draw(   850, 200, 256, 144);
   if(videoProjection[9])  video[videoID[9]].draw(   850, 350, 256, 144);
   if(videoProjection[10]) video[videoID[10]].draw(  850, 500, 256, 144);
-//  if(videoProjection[11]) video[videoID[11]].draw(  850, 650, 256, 144);
-//  if(videoProjection[12]) video[videoID[12]].draw( 1170,  50, 256, 144);
-//  if(videoProjection[13]) video[videoID[13]].draw( 1170, 200, 256, 144);
-//  if(videoProjection[14]) video[videoID[14]].draw( 1170, 350, 256, 144);
-//  if(videoProjection[15]) video[videoID[15]].draw( 1170, 500, 256, 144);
-//  if(videoProjection[16]) video[videoID[16]].draw( 1170, 650, 256, 144);
-
-  
-  
-  /*   
-       for (int i = 0; i < 3; i++) {
-       switch (projection[i]) {
-       case 0: video[0].update(); video[0].draw(50,60,600,480); break;
-       //case 0: if(!video[0].isPlaying()){video[0].play();}; video[0].update(); video[0].draw(50,60,100,60); break;
-       //case 1: video[1].update(); video[1].draw(155,60,100,60); break;
-       //case 2: video[2].update(); video[2].draw(260,60,100,60); break;
-       default: break;
-       }
-       }
-  */
-  /*
-  // Projection 
-  switch (projection[0]) {
-  case 0: video[0].setVolume(0); video[0].update(); video[0].draw(40,20,200,200); break;
-  case 1: video[1].setVolume(0); video[1].update(); video[1].draw(40,20,200,200); break;
-  case 2: video[2].setVolume(0); video[2].update(); video[2].draw(40,20,200,200); break;
-  default: break;
-  }
-  
-  switch (projection[1]) {
-  case 0: video[0].setVolume(0); video[0].update(); video[0].draw(260,20,200,200); break;
-  case 1: video[1].setVolume(0); video[1].update(); video[1].draw(260,20,200,200); break;
-  case 2: video[2].setVolume(0); video[2].update(); video[2].draw(260,20,200,200); break;
-  default: break;
-  }
-  
-  switch (projection[2]) {
-  case 0: video[0].setVolume(0); video[0].update(); video[0].draw(480,20,200,200); break;
-  case 1: video[1].setVolume(0); video[1].update(); video[1].draw(480,20,200,200); break;
-  case 2: video[2].setVolume(0); video[2].update(); video[2].draw(480,20,200,200); break;
-  default: break;
-  }
-  */
   myFbo.end();
   
   myFbo.draw(0, 0);
