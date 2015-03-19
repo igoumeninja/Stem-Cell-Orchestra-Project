@@ -95,7 +95,7 @@ void testApp::update(){
       
       if ( m.getAddress() == "/filter" )	    {
         endFilterTime = ofGetElapsedTimeMillis() + m.getArgAsInt32(1);
-        cout << ofGetElapsedTimeMillis() << endl;
+        //cout << ofGetElapsedTimeMillis() << endl;
         switch ( m.getArgAsInt32(0) ) {
         case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,    true);break;
         case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,         true);break;
