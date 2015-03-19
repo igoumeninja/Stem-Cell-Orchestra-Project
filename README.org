@@ -15,11 +15,15 @@
 1. Send video to projection
    1. OSC message name =/projection= with arguments =0,1,2,3,4,5,6,7,8,9=
    2. OSC message name =/projection= with arguments =0,0,0,0,0,0,0,0,0,0= (send video 0 to all projection)
-2. =OF.filter(shaderID)=
-   1. shaderID: 0 -> no shader
-   2. shaderID: 1~9
-3. =OF.videoPos(videoID,frameNum)=
-4. =OF.videoSpeed(videoID,speed)=
+2. =/filter, shaderID, milliseconds=
+        case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,    true);break;
+        case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,         true);break;
+        case 3: myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER,         true);break;
+        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST,true);break;
+        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,   true);break;
+        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,    true);break;
+3. =/videoSec, videoID videoPositionInMilliseconds=
+4. =/videoSpeed, videoID, speedVideo=
 
 *Phrases*
 
@@ -28,8 +32,8 @@
 
 *Create different scenes*
 
-1. =OF.state("150318_1");=
-2. =OF.state("main");=
+1. =state, "150318_1"=
+2. =state, "main"=
 
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
@@ -44,7 +48,7 @@
 (osc-send-message of-client "filter" 2)
 (osc-send-message of-client "filter" 0)
 
-(osc-send-message of-client "videoPos" 1)
+(osc-send-message of-client "/videoSec" 1 1)
 (osc-send-message of-client "/videoSpeed" 1 10)
 
-(osc-send-message of-client "/filter" 1 1000)
+(osc-send-message of-client "/filter" 3 2000)
