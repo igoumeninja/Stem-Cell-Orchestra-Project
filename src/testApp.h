@@ -43,6 +43,7 @@ public:
   ofVideoPlayer 		video[NUM_VIDEOS];
   bool videoPlay[NUM_VIDEOS], videoProjection[NUM_PROJECTION];
   int videoID[NUM_PROJECTION];
+  int startFilterTime, endFilterTime;
  private:
   ofxMtlMapping2D* _mapping;
   ofxOscReceiver	receiver;

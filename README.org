@@ -38,3 +38,13 @@
 - ofxXmlSettings
 - ofxMSAInteractiveObject
 - ofxUI
+* Use Emacs as interpreter for sending OSC messages
+(osc-send-message of-client "/projection" 0 1 2 3 4 5 6 7 8 9 10)
+(osc-send-message of-client "state" "150318_1")
+(osc-send-message of-client "filter" 2)
+(osc-send-message of-client "filter" 0)
+
+(osc-send-message of-client "videoPos" 1)
+(osc-send-message of-client "/videoSpeed" 1 10)
+
+(osc-send-message of-client "/filter" 1 1000)

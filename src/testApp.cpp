@@ -91,6 +91,21 @@ void testApp::update(){
       if ( m.getAddress() == "videoPos" )   {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
       if ( m.getAddress() == "/videoSec" )   { video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(1)*24);}
       if ( m.getAddress() == "/videoSpeed" ) {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(1)); }
+      // Send /filter, filterID, milliseconds
+      
+      if ( m.getAddress() == "/filter" )	    {
+        endFilterTime = ofGetElapsedTimeMillis() + m.getArgAsInt32(1);
+        cout << ofGetElapsedTimeMillis() << endl;
+        switch ( m.getArgAsInt32(0) ) {
+        case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,    true);break;
+        case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,         true);break;
+        case 3: myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER,         true);break;          
+        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST,true);break;
+        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,   true);break;
+        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,    true);break;
+        default: break;
+        }
+      }
       if ( m.getAddress() == "filter" )	    {
         switch ( m.getArgAsInt32(0) ) {
         case 0:
@@ -114,6 +129,15 @@ void testApp::update(){
 
   for (int i = 0; i < NUM_VIDEOS; i++) {
       if(videoPlay[i]) {video[i].update();}
+  }
+  if(endFilterTime < ofGetElapsedTimeMillis()) {
+    //cout << "Filter STOP" << endl;
+    myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	 , false);
+    myGlitch.setFx(OFXPOSTGLITCH_SHAKER		 , false);
+    myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER	 , false);
+    myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST , false);
+    myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	 , false);
+    myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	 , false);
   }
 }
 
