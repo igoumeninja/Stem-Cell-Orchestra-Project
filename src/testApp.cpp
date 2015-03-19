@@ -1,5 +1,6 @@
 /*
   Start edit with Emacs
+  the project is hosted at https://github.com/igoumeninja/Stem-Cell-Orchestra-Project
   Aris Bezas
 */
 #include <string>
