@@ -207,16 +207,16 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-  if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE, false);
-  if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW	  , false);
-  if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER	  , false);
-  if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER  , false);
-  if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST	  , false);
-  if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE	  , false);
-  if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE	  , false);
-  if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN	  , false);
-  if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL	  , false);
-  if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT	  , false);
+  if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE      , false);
+  if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW	        , false);
+  if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER	        , false);
+  if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER        , false);
+  if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST	        , false);
+  if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE	        , false);
+  if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE	        , false);
+  if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN	        , false);
+  if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL	        , false);
+  if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT	        , false);
   if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , false);
   if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
   if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
@@ -224,9 +224,8 @@ void testApp::keyReleased(int key){
   if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, false);
   if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, false);
   if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, false);
-  if (key == 'p') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state1.xml", "mapping/controls/mapping.xml");
-  if (key == 'o') _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/state2.xml", "mapping/controls/mapping.xml");
 }
+
 
 void testApp::mouseMoved(int x, int y ){}
 void testApp::mouseDragged(int x, int y, int button){}
