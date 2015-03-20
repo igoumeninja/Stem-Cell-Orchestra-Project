@@ -29,7 +29,7 @@ void testApp::setup(){
   
   _mapping = new ofxMtlMapping2D();
   _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
-  string path = "video/150320_2/";
+  string path = "video/0-15_15_45/";
   ofDirectory dir(path);
   //only show png files
   dir.allowExt("mp4");
@@ -65,7 +65,6 @@ void testApp::update(){
         for (int i = 0; i < NUM_PROJECTION; i++) {
           videoProjection[i] = false;
           videoPrevious[i] = videoPlaying[i];
-          //video[videoStoped[i]].stop();
         }
         for (int i = 0; i < NUM_VIDEOS; i++) {
               videoPlay[i] = false;
