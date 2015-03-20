@@ -41,19 +41,16 @@
 #+BEGIN_EXAMPLE
 
 
-(osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
-(osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
-
-(osc-send-message of-client "state" "150318_1")
 (osc-send-message of-client "state" "150320")
-(osc-send-message of-client "filter" 2)
-(osc-send-message of-client "filter" 0)
+(osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
+(osc-send-message of-client "/projection" 31 666 31 31 666 3 666 666 25 22 30)
 
-(osc-send-message of-client "/videoSec" 9 1)
-(osc-send-message of-client "/videoSpeed" 9 10)
+(osc-send-message of-client "/videoSec" 3 1)
+(osc-send-message of-client "/videoSpeed" 1 2)
 
 (osc-send-message of-client "/filter" 3 200)
 (osc-send-message of-client "/filter" 4 100)
+
 #+END_EXAMPLE
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
