@@ -7,7 +7,7 @@
 
 #define PORT 12345
 #define NUM_MSG_STRINGS 20
-#define NUM_VIDEOS 40
+#define NUM_VIDEOS 80
 #define NUM_PROJECTION 11
 
 class testApp : public ofBaseApp{
@@ -44,6 +44,8 @@ public:
   bool videoPlay[NUM_VIDEOS], videoProjection[NUM_PROJECTION];
   int videoID[NUM_PROJECTION];
   int startFilterTime, endFilterTime;
+  int videoPlaying[11], videoPrevious[11];
+  
  private:
   ofxMtlMapping2D* _mapping;
   ofxOscReceiver	receiver;

@@ -29,19 +29,18 @@ void testApp::setup(){
   
   _mapping = new ofxMtlMapping2D();
   _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
-
-
-    for (int i=0; i<NUM_VIDEOS; i++) {
-        string tempInt;
-        stringstream convert; // stringstream used for the conversion
-        convert << i;//add the value of Number to the characters in the stream
-        tempInt = convert.str();
-        string tempVideoDir = "video/150320_1/" + tempInt + ".avi";
-        video[i].loadMovie(tempVideoDir);
-        video[i].setVolume(0);
-        videoPlay[i] = false;
-        //video[i].play();
-        cout << "video[" << i << "]:frames: " << video[i].getTotalNumFrames() << ",framerate:" << video[i].getTotalNumFrames()/video[i].getDuration() <<endl;
+  string path = "video/150320_2/";
+  ofDirectory dir(path);
+  //only show png files
+  dir.allowExt("mp4");
+  //populate the directory object
+  dir.listDir();
+  //go through and print out all the paths
+  for(int i = 0; i < dir.numFiles(); i++){
+    ofLogNotice(dir.getPath(i));
+    video[i].loadMovie(dir.getPath(i));
+    video[i].setVolume(0);
+    videoPlay[i] = false;
   }
 }
 
@@ -62,22 +61,32 @@ void testApp::update(){
       receiver.getNextMessage( &m );
       
       if ( m.getAddress() == "/projection" )	{
+
         for (int i = 0; i < NUM_PROJECTION; i++) {
           videoProjection[i] = false;
+          videoPrevious[i] = videoPlaying[i];
+          //video[videoStoped[i]].stop();
         }
         for (int i = 0; i < NUM_VIDEOS; i++) {
               videoPlay[i] = false;
-              video[i].stop();
         }
 
-        for (int i = 0; i < m.getNumArgs(); i++) {
-          if(m.getArgAsInt32(i) != 0) {
+        for (int i = 0; i < NUM_PROJECTION; i++) {
+          if(m.getArgAsInt32(i) != 666) {
             videoID[i] = m.getArgAsInt32(i);
             videoProjection[i] = true;
             videoPlay[m.getArgAsInt32(i)] = true;
             video[m.getArgAsInt32(i)].play();
+            videoPlaying[i] = m.getArgAsInt32(i);
           }
         }
+        for (int i = 0; i < NUM_PROJECTION; i++) {
+          if(m.getArgAsInt32(i) != 666) {
+            if(videoPrevious[i] != videoPlaying[i]) {
+              video[videoPrevious[i]].stop();
+            }
+          }
+        }        
       }
       if ( m.getAddress() == "state" )	{
         if(m.getArgAsString(0) == "main") {
