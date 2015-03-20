@@ -36,11 +36,11 @@ void testApp::setup(){
         stringstream convert; // stringstream used for the conversion
         convert << i;//add the value of Number to the characters in the stream
         tempInt = convert.str();
-        string tempVideoDir = "video/256g/" + tempInt + ".mp4";
+        string tempVideoDir = "video/150320_1/" + tempInt + ".avi";
         video[i].loadMovie(tempVideoDir);
         video[i].setVolume(0);
         videoPlay[i] = false;
-        video[i].play();
+        //video[i].play();
         cout << "video[" << i << "]:frames: " << video[i].getTotalNumFrames() << ",framerate:" << video[i].getTotalNumFrames()/video[i].getDuration() <<endl;
   }
 }
@@ -67,16 +67,15 @@ void testApp::update(){
         }
         for (int i = 0; i < NUM_VIDEOS; i++) {
               videoPlay[i] = false;
+              video[i].stop();
         }
 
-        videoProjection[0] = true;
-        videoPlay[0] = true;          
-
-        for (int i = 1; i < m.getNumArgs(); i++) {
+        for (int i = 0; i < m.getNumArgs(); i++) {
           if(m.getArgAsInt32(i) != 0) {
             videoID[i] = m.getArgAsInt32(i);
             videoProjection[i] = true;
             videoPlay[m.getArgAsInt32(i)] = true;
+            video[m.getArgAsInt32(i)].play();
           }
         }
       }
@@ -151,8 +150,7 @@ void testApp::draw(){
   ofBackground(0,0,0);
   ofSetHexColor(0xFFFFFF);
   
-  if(videoProjection[0])  video[0].draw(   50,   10, 640, 480);
-    
+  if(videoProjection[0])  video[videoID[0]].draw(   50,   10, 640, 480);    
   if(videoProjection[1])  video[videoID[1]].draw(   50,  500, 256, 144);
   if(videoProjection[2])  video[videoID[2]].draw(   50,  650, 256, 144);
   if(videoProjection[3])  video[videoID[3]].draw(   310, 500, 256, 144);
