@@ -61,7 +61,7 @@ void testApp::update(){
       receiver.getNextMessage( &m );
       if ( m.getAddress() == "/projection" )	{
         video[m.getArgAsInt32(5)].setLoopState(OF_LOOP_NONE);
-
+        
         if(mainVideo != m.getArgAsInt32(5)) {
           mainVideoChanged = true;
           video[mainVideo].setLoopState(OF_LOOP_NORMAL);
@@ -74,9 +74,9 @@ void testApp::update(){
           videoPrevious[i] = videoPlaying[i];
         }
         for (int i = 0; i < NUM_VIDEOS; i++) {
-           videoPlay[i] = false;
+          videoPlay[i] = false;
         }
-
+        
         for (int i = 0; i < NUM_PROJECTION; i++) {
           if(m.getArgAsInt32(i) != 666) {
             videoID[i] = m.getArgAsInt32(i);
@@ -90,7 +90,7 @@ void testApp::update(){
             videoPlaying[i] = m.getArgAsInt32(i);
           }
         }
-          
+        
         for (int i = 0; i < NUM_PROJECTION; i++) {
           if(m.getArgAsInt32(i) != 666) {
             if(videoPrevious[i] != videoPlaying[i]) {
@@ -99,7 +99,7 @@ void testApp::update(){
           }
         }
       }
-
+      
       
       if ( m.getAddress() == "state" )	{
         if(m.getArgAsString(0) == "main") {
@@ -127,62 +127,36 @@ void testApp::update(){
         default: break;
         }
       }
-      if ( m.getAddress() == "filter" )	    {
-        switch ( m.getArgAsInt32(0) ) {
-        case 0:
-          myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	, false);
-          myGlitch.setFx(OFXPOSTGLITCH_SHAKER		, false);
-          myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER	, false);
-          myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , false);
-          myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
-          myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
-          break;          
-        case 1: myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE,     true);break;
-        case 2: myGlitch.setFx(OFXPOSTGLITCH_SHAKER,          true);break;
-        case 3: myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER,       true);break;          
-        case 4: myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST, true);break;
-        case 5: myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE,    true);break;
-        case 6: myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE,     true);break;
-        default: break;
-        }
-      }
     }
-
+  
   if(endFilterTime < ofGetElapsedTimeMillis()) {
-    //cout << "Filter STOP" << endl;
     myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	 , false);
-    myGlitch.setFx(OFXPOSTGLITCH_SHAKER		 , false);
-    myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER	 , false);
+    myGlitch.setFx(OFXPOSTGLITCH_SHAKER		     , false);
+    myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER	     , false);
     myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST , false);
     myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	 , false);
     myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	 , false);
   }
   
-  /*  if(video[mainVideo].getIsMovieDone()) {
-    videoProjection[5] = false;
-    video[mainVideo].stop();
-    cout << "STOP" << endl;
-  }
-  */
-    for (int i = 0; i < NUM_VIDEOS; i++) {
-        if (i != mainVideo) {
-            if(videoPlay[i]) {
-                video[i].update(); video[i].play();
-            }
-        } else {
-            if (!video[mainVideo].getIsMovieDone()) {
-                video[i].update(); video[i].play();
-            }
-        }
+  for (int i = 0; i < NUM_VIDEOS; i++) {
+    if (i != mainVideo) {
+      if(videoPlay[i]) {
+        video[i].update(); video[i].play();
+      }
+    } else {
+      if (!video[mainVideo].getIsMovieDone()) {
+        video[i].update(); video[i].play();
+      }
     }
- 
+  }
+  
   if (video[mainVideo].getIsMovieDone()) videoProjection[5] = false;
-
+  
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-
+  
   _mapping->bind();
   myFbo.begin();
   myGlitch.generateFx();
@@ -210,25 +184,6 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-  if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE, true);
-  if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW	  , true);
-  if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER	  , true);
-  if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER  , true);
-  if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST	  , true);
-  if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE	  , true);
-  if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE	  , true);
-  if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN	  , true);
-  if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL	  , true);
-  if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT	  , true);
-  if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , true);
-  if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, true);
-  if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, true);
-  if (key == 'r') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, true);
-  if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, true);
-  if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, true);
-  if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, true);
-  if (key == 'l') bDrawLenna ^= true;
-  if (key == 'h') bShowHelp ^= true;
   
   if(key == 'f' or key == 'F'){
     int previousWindowX, previousWindowY;
@@ -242,28 +197,7 @@ void testApp::keyPressed(int key){
   }
 }
 
-//--------------------------------------------------------------
-void testApp::keyReleased(int key){
-  if (key == '1') myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE      , false);
-  if (key == '2') myGlitch.setFx(OFXPOSTGLITCH_GLOW	        , false);
-  if (key == '3') myGlitch.setFx(OFXPOSTGLITCH_SHAKER	        , false);
-  if (key == '4') myGlitch.setFx(OFXPOSTGLITCH_CUTSLIDER        , false);
-  if (key == '5') myGlitch.setFx(OFXPOSTGLITCH_TWIST	        , false);
-  if (key == '6') myGlitch.setFx(OFXPOSTGLITCH_OUTLINE	        , false);
-  if (key == '7') myGlitch.setFx(OFXPOSTGLITCH_NOISE	        , false);
-  if (key == '8') myGlitch.setFx(OFXPOSTGLITCH_SLITSCAN	        , false);
-  if (key == '9') myGlitch.setFx(OFXPOSTGLITCH_SWELL	        , false);
-  if (key == '0') myGlitch.setFx(OFXPOSTGLITCH_INVERT	        , false);
-  if (key == 'q') myGlitch.setFx(OFXPOSTGLITCH_CR_HIGHCONTRAST  , false);
-  if (key == 'w') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	, false);
-  if (key == 'e') myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	, false);
-  if (key == 'r') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENRAISE	, false);
-  if (key == 't') myGlitch.setFx(OFXPOSTGLITCH_CR_BLUEINVERT	, false);
-  if (key == 'y') myGlitch.setFx(OFXPOSTGLITCH_CR_REDINVERT	, false);
-  if (key == 'u') myGlitch.setFx(OFXPOSTGLITCH_CR_GREENINVERT	, false);
-}
-
-
+void testApp::keyReleased(int key){}
 void testApp::mouseMoved(int x, int y ){}
 void testApp::mouseDragged(int x, int y, int button){}
 void testApp::mousePressed(int x, int y, int button){}

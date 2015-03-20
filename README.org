@@ -54,7 +54,7 @@
 (osc-send-message of-client "/filter" 4 100)
 
 (osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
-(loop)
+
 #+END_EXAMPLE
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
@@ -63,6 +63,26 @@
 - ofxXmlSettings
 - ofxMSAInteractiveObject
 - ofxUI
-
 * Links
 - [[https://vimeo.com/122739141][Debbuging Stem Orchestra Software]]
+
+* Other staff
+
+** Available GLSL filters
+- OFXPOSTGLITCH_CONVERGENCE
+- OFXPOSTGLITCH_GLOW
+- OFXPOSTGLITCH_SHAKER
+- OFXPOSTGLITCH_CUTSLIDER
+- OFXPOSTGLITCH_TWIST
+- OFXPOSTGLITCH_OUTLINE
+- OFXPOSTGLITCH_NOISE
+- OFXPOSTGLITCH_SLITSCAN
+- OFXPOSTGLITCH_SWELL
+- OFXPOSTGLITCH_INVERT
+- OFXPOSTGLITCH_CR_HIGHCONTRAST
+- OFXPOSTGLITCH_CR_BLUERAISE
+- OFXPOSTGLITCH_CR_REDRAISE
+- OFXPOSTGLITCH_CR_GREENRAISE
+- OFXPOSTGLITCH_CR_BLUEINVERT
+- OFXPOSTGLITCH_CR_REDINVERT
+- OFXPOSTGLITCH_CR_GREENINVERT
