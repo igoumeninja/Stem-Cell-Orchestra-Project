@@ -19,7 +19,7 @@ public:
   
   void keyPressed  (int key);
   void keyReleased(int key);
-    void mouseMoved(int x, int y );
+  void mouseMoved(int x, int y );
   void mouseDragged(int x, int y, int button);
   void mousePressed(int x, int y, int button);
   void mouseReleased(int x, int y, int button);
@@ -40,6 +40,11 @@ public:
   /*Addon instance*/
   ofxPostGlitch	myGlitch;
 
+  vector<string>              mFiles;
+  vector<ofVideoPlayer*>      mPlayers;
+  ofVideoPlayer*              mPlayer;
+  int                         mFileIndex;
+  
   ofVideoPlayer 		video[NUM_VIDEOS];
   bool videoPlay[NUM_VIDEOS], videoProjection[NUM_PROJECTION];
   int videoID[NUM_PROJECTION];

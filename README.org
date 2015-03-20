@@ -55,7 +55,6 @@
 
 (osc-send-message of-client "/filter" 3 2000)
 #+END_EXAMPLE
-
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
 - ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
@@ -63,3 +62,7 @@
 - ofxXmlSettings
 - ofxMSAInteractiveObject
 - ofxUI
+
+* Usefull links
+- http://forum.openframeworks.cc/t/video-artefacts-when-switching-ofvideoplayer-pointers/15977
+-
