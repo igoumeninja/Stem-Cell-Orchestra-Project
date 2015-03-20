@@ -59,34 +59,48 @@ void testApp::update(){
     {
       ofxOscMessage m;
       receiver.getNextMessage( &m );
-      
       if ( m.getAddress() == "/projection" )	{
+        video[m.getArgAsInt32(5)].setLoopState(OF_LOOP_NONE);
 
+        if(mainVideo != m.getArgAsInt32(5)) {
+          mainVideoChanged = true;
+          video[mainVideo].setLoopState(OF_LOOP_NORMAL);
+          video[mainVideo].setPosition(0);
+          mainVideo = m.getArgAsInt32(5);        
+        }
+        
         for (int i = 0; i < NUM_PROJECTION; i++) {
           videoProjection[i] = false;
           videoPrevious[i] = videoPlaying[i];
         }
         for (int i = 0; i < NUM_VIDEOS; i++) {
-              videoPlay[i] = false;
+           videoPlay[i] = false;
         }
 
         for (int i = 0; i < NUM_PROJECTION; i++) {
           if(m.getArgAsInt32(i) != 666) {
             videoID[i] = m.getArgAsInt32(i);
             videoProjection[i] = true;
+            //if (video[mainVideo].getIsMovieDone()) {videoProjection[5] = false; video[mainVideo].stop();}
             videoPlay[m.getArgAsInt32(i)] = true;
-            video[m.getArgAsInt32(i)].play();
+            
+            if(i != 5) {
+              video[m.getArgAsInt32(i)].setPosition(0);
+            }
             videoPlaying[i] = m.getArgAsInt32(i);
           }
         }
+          
         for (int i = 0; i < NUM_PROJECTION; i++) {
           if(m.getArgAsInt32(i) != 666) {
             if(videoPrevious[i] != videoPlaying[i]) {
               video[videoPrevious[i]].stop();
             }
           }
-        }        
+        }
       }
+
+      
       if ( m.getAddress() == "state" )	{
         if(m.getArgAsString(0) == "main") {
           _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
@@ -96,6 +110,7 @@ void testApp::update(){
         }
       }
         if ( m.getAddress() == "/test" )   {   cout << "OK" << endl; }
+        if ( m.getAddress() == "test" )   {   cout << "OK" << endl; }        
       if ( m.getAddress() == "videoPos" )   {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
       if ( m.getAddress() == "/videoSec" )   { video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(1)*24);}
       if ( m.getAddress() == "/videoSpeed" ) {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(1)); }
@@ -135,9 +150,6 @@ void testApp::update(){
       }
     }
 
-  for (int i = 0; i < NUM_VIDEOS; i++) {
-      if(videoPlay[i]) {video[i].update();}
-  }
   if(endFilterTime < ofGetElapsedTimeMillis()) {
     //cout << "Filter STOP" << endl;
     myGlitch.setFx(OFXPOSTGLITCH_CONVERGENCE	 , false);
@@ -147,6 +159,27 @@ void testApp::update(){
     myGlitch.setFx(OFXPOSTGLITCH_CR_BLUERAISE	 , false);
     myGlitch.setFx(OFXPOSTGLITCH_CR_REDRAISE	 , false);
   }
+  
+  /*  if(video[mainVideo].getIsMovieDone()) {
+    videoProjection[5] = false;
+    video[mainVideo].stop();
+    cout << "STOP" << endl;
+  }
+  */
+    for (int i = 0; i < NUM_VIDEOS; i++) {
+        if (i != mainVideo) {
+            if(videoPlay[i]) {
+                video[i].update(); video[i].play();
+            }
+        } else {
+            if (!video[mainVideo].getIsMovieDone()) {
+                video[i].update(); video[i].play();
+            }
+        }
+    }
+ 
+  if (video[mainVideo].getIsMovieDone()) videoProjection[5] = false;
+
 }
 
 //--------------------------------------------------------------

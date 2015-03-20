@@ -45,6 +45,8 @@ public:
   int videoID[NUM_PROJECTION];
   int startFilterTime, endFilterTime;
   int videoPlaying[11], videoPrevious[11];
+  bool mainVideoChanged;
+  int mainVideo;
   
  private:
   ofxMtlMapping2D* _mapping;

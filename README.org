@@ -44,6 +44,8 @@
 (osc-send-message of-client "state" "150320")
 (osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
 (osc-send-message of-client "/projection" 31 666 31 31 666 3 666 666 25 22 30)
+(osc-send-message of-client "/projection" 41 666 31 44 666 5 666 41 666 22 30)
+(osc-send-message of-client "/projection" 21 31 666 31 666 6 666 666 25 22 30)
 
 (osc-send-message of-client "/videoSec" 3 1)
 (osc-send-message of-client "/videoSpeed" 1 2)
