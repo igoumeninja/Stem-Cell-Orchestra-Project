@@ -109,8 +109,6 @@ void testApp::update(){
           _mapping->init(ofGetWidth(), ofGetHeight(), tempVideoDir, "mapping/controls/mapping.xml");
         }
       }
-        if ( m.getAddress() == "/test" )   {   cout << "OK" << endl; }
-        if ( m.getAddress() == "test" )   {   cout << "OK" << endl; }        
       if ( m.getAddress() == "videoPos" )   {   video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(0)); }
       if ( m.getAddress() == "/videoSec" )   { video[m.getArgAsInt32(0)].setFrame(m.getArgAsInt32(1)*24);}
       if ( m.getAddress() == "/videoSpeed" ) {   video[m.getArgAsInt32(0)].setSpeed(m.getArgAsInt32(1)); }

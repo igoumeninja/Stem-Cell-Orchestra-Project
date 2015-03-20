@@ -53,6 +53,8 @@
 (osc-send-message of-client "/filter" 3 200)
 (osc-send-message of-client "/filter" 4 100)
 
+(osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
+(loop)
 #+END_EXAMPLE
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
