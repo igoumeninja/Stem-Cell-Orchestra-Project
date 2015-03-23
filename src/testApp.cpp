@@ -19,7 +19,6 @@ void testApp::setup(){
   receiver.setup( 12345 );
   current_msg_string = 0;
   
-  
   lenna.loadImage("lenna.png");
   bDrawLenna = false;
   bShowHelp  = true;
@@ -29,7 +28,7 @@ void testApp::setup(){
   
   _mapping = new ofxMtlMapping2D();
   _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
-  string path = "video/0-15_15_45/";
+  string path = "video/video_GREY/";
   ofDirectory dir(path);
   //only show png files
   dir.allowExt("mp4");
@@ -60,6 +59,8 @@ void testApp::update(){
       ofxOscMessage m;
       receiver.getNextMessage( &m );
       if ( m.getAddress() == "/projection" )	{
+          
+        //if (m.getArgAsInt32(5) != 666) video[m.getArgAsInt32(5)].setLoopState(OF_LOOP_NONE);
         video[m.getArgAsInt32(5)].setLoopState(OF_LOOP_NONE);
         
         if(mainVideo != m.getArgAsInt32(5)) {
@@ -84,7 +85,8 @@ void testApp::update(){
             //if (video[mainVideo].getIsMovieDone()) {videoProjection[5] = false; video[mainVideo].stop();}
             videoPlay[m.getArgAsInt32(i)] = true;
             
-            if(i != 5) {
+            //if(i != 5 & m.getArgAsInt32(i) != 666) {
+            if(i != 5 & (m.getArgAsInt32(i) != mainVideo)) {
               video[m.getArgAsInt32(i)].setPosition(0);
             }
             videoPlaying[i] = m.getArgAsInt32(i);
@@ -98,7 +100,11 @@ void testApp::update(){
             }
           }
         }
-      }
+        // PRINT THE MESSAGE
+          
+          cout << "/projection," << m.getArgAsInt32(0) << "," << m.getArgAsInt32(1) << "," << m.getArgAsInt32(2) << "," << m.getArgAsInt32(3) << "," << m.getArgAsInt32(4) << "," << m.getArgAsInt32(5) << "," << m.getArgAsInt32(6) << "," << m.getArgAsInt32(7) << "," << m.getArgAsInt32(8) << "," << m.getArgAsInt32(9) << "," << m.getArgAsInt32(10) << endl;
+          
+      } 
       
       
       if ( m.getAddress() == "state" )	{
@@ -149,7 +155,7 @@ void testApp::update(){
       }
     }
   }
-  
+  //if (mainVideo != 666)
   if (video[mainVideo].getIsMovieDone()) videoProjection[5] = false;
   
 }
