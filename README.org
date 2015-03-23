@@ -59,6 +59,8 @@
 
 #+END_EXAMPLE
 * Messages from prova generale
+#+BEGIN_EXAMPLE
+
 
 (osc-send-message of-client "state" "150320")
 (osc-send-message of-client "/projection" 29 30 666 32 33 29 666 31 32 666 666)
@@ -198,6 +200,7 @@
 (osc-send-message of-client "/projection" 6 666 666 666 15 6 666 8 666 666 666)
 (osc-send-message of-client "/projection" 6 666 666 14 15 6 666 8 9 10 666)
 (osc-send-message of-client "/projection" 666 666 13 14 666 6 666 666 9 10 666)
+
 (osc-send-message of-client "/projection" 6 12 666 14 666 6 666 8 666 10 11)
 (osc-send-message of-client "/projection" 6 12 666 666 666 6 666 666 9 10 666)
 (osc-send-message of-client "/projection" 666 12 666 666 15 6 666 666 9 666 11)
@@ -248,7 +251,7 @@
 (osc-send-message of-client "/projection" 666 12 666 666 15 6 666 666 9 10 666)
 (osc-send-message of-client "/projection" 6 666 666 14 15 29 30 666 666 33 666)
 (osc-send-message of-client "/projection" 29 666 666 666 666 47 49 666 51 666 53)
-
+#+END_EXAMPLE
 * openFrameworks Addons Dependencies
 - ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
 - ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
