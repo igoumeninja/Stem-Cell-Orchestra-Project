@@ -200,7 +200,6 @@
 (osc-send-message of-client "/projection" 6 666 666 666 15 6 666 8 666 666 666)
 (osc-send-message of-client "/projection" 6 666 666 14 15 6 666 8 9 10 666)
 (osc-send-message of-client "/projection" 666 666 13 14 666 6 666 666 9 10 666)
-
 (osc-send-message of-client "/projection" 6 12 666 14 666 6 666 8 666 10 11)
 (osc-send-message of-client "/projection" 6 12 666 666 666 6 666 666 9 10 666)
 (osc-send-message of-client "/projection" 666 12 666 666 15 6 666 666 9 666 11)
