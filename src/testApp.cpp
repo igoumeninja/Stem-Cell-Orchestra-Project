@@ -85,8 +85,8 @@ void testApp::update(){
             //if (video[mainVideo].getIsMovieDone()) {videoProjection[5] = false; video[mainVideo].stop();}
             videoPlay[m.getArgAsInt32(i)] = true;
             
-            //if(i != 5 & m.getArgAsInt32(i) != 666) {
-            if(i != 5 & (m.getArgAsInt32(i) != mainVideo)) {
+            //if((i != 5) & (m.getArgAsInt32(i) != mainVideo)) {
+            if(m.getArgAsInt32(i) != mainVideo) {
               video[m.getArgAsInt32(i)].setPosition(0);
             }
             videoPlaying[i] = m.getArgAsInt32(i);
