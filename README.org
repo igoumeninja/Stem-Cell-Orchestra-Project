@@ -287,6 +287,8 @@
 - OFXPOSTGLITCH_CR_GREENINVERT
 
 * OSC messages received at <2015-03-23 Mon 15:16>
+#+BEGIN_EXAMPLE
+
 
 (osc-send-message of-client "/projection" 1 666 3 4 666 0 666 2 666 4 5)
 (osc-send-message of-client "/projection" 666 666 666 4 666 0 666 2 666 4 666)
@@ -945,3 +947,4 @@
 (osc-send-message of-client "/projection" 666 8 666 666 666 6 666 13 14 15 14)
 (osc-send-message of-client "/projection" 666 2 3 666 5 0 666 666 666 4 666)
 (osc-send-message of-client "/projection" 666 666 666 4 5 0 666 666 666 666 5)
+#+END_EXAMPLE

@@ -28,7 +28,7 @@ void testApp::setup(){
   
   _mapping = new ofxMtlMapping2D();
   _mapping->init(ofGetWidth(), ofGetHeight(), "mapping/xml/shapes.xml", "mapping/controls/mapping.xml");
-  string path = "video/150323/";
+  string path = "video/video_GREYForPerformance/";
   ofDirectory dir(path);
   //only show png files
   dir.allowExt("mp4");
