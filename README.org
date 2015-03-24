@@ -40,14 +40,19 @@
 * Use Emacs as interpreter for sending OSC messages
 #+BEGIN_EXAMPLE
 
+(osc-send-message of-client "state" "ProvaGenerale")
+
+(osc-send-message of-client "state" "ProvaGenerale_2")
 (osc-send-message of-client "state" "EmptyState")
 (osc-send-message of-client "state" "150320")
 (osc-send-message of-client "state" "150321")
 (osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 32 666 30)
+(osc-send-message of-client "/projection" 1 1 4 1 1 2 1 1 1 1 1 1 1)
+
 (osc-send-message of-client "/projection" 31 666 31 31 666 3 666 666 25 22 30)
 (osc-send-message of-client "/projection" 41 666 31 44 666 5 666 41 666 22 30)
 (osc-send-message of-client "/projection" 21 31 666 31 666 6 666 666 25 22 30)
-(osc-send-message of-client "/projection" 666 666 666 666 666 666 666 666 666 666 666)
+(osc-send-message of-client "/projection" 666 666 666 666 666 1 666 666 666 666 666)
 
 (osc-send-message of-client "/videoSec" 5 1)
 (osc-send-message of-client "/videoSpeed" 5 2)
@@ -283,7 +288,6 @@
 
 * OSC messages received at <2015-03-23 Mon 15:16>
 
-(osc-send-message of-client "/projection" 666 2 666 4 666 0 1 666 666 4 5)
 (osc-send-message of-client "/projection" 1 666 3 4 666 0 666 2 666 4 5)
 (osc-send-message of-client "/projection" 666 666 666 4 666 0 666 2 666 4 666)
 (osc-send-message of-client "/projection" 666 2 666 666 666 0 666 2 666 666 5)

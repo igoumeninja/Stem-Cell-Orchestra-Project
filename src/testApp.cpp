@@ -103,7 +103,7 @@ void testApp::update(){
         }
         // PRINT THE MESSAGE
           
-        // cout << "/projection" << m.getArgAsInt32(0) << " " << m.getArgAsInt32(1) << " " << m.getArgAsInt32(2) << " " << m.getArgAsInt32(3) << " " << m.getArgAsInt32(4) << " " << m.getArgAsInt32(5) << " " << m.getArgAsInt32(6) << " " << m.getArgAsInt32(7) << " " << m.getArgAsInt32(8) << " " << m.getArgAsInt32(9) << " " << m.getArgAsInt32(10) << ")" << endl;
+        cout << "/projection" << m.getArgAsInt32(0) << " " << m.getArgAsInt32(1) << " " << m.getArgAsInt32(2) << " " << m.getArgAsInt32(3) << " " << m.getArgAsInt32(4) << " " << m.getArgAsInt32(5) << " " << m.getArgAsInt32(6) << " " << m.getArgAsInt32(7) << " " << m.getArgAsInt32(8) << " " << m.getArgAsInt32(9) << " " << m.getArgAsInt32(10) << ")" << endl;
           
       } 
       
