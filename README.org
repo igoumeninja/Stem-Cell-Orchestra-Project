@@ -42,7 +42,6 @@
 
 (osc-send-message of-client "state" "ProvaGenerale")
 
-(osc-send-message of-client "state" "ProvaGenerale_2")
 (osc-send-message of-client "state" "EmptyState")
 (osc-send-message of-client "state" "150320")
 (osc-send-message of-client "state" "150321")
@@ -59,6 +58,8 @@
 
 (osc-send-message of-client "/filter" 3 200)
 (osc-send-message of-client "/filter" 4 100)
+
+(osc-send-message of-client "/test")
 
 (osc-send-message of-client "/projection" 31 31 31 31 666 1 666 666 666 39 30)
 

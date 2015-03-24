@@ -58,7 +58,7 @@ void testApp::update(){
     {
       ofxOscMessage m;
       receiver.getNextMessage( &m );
-        if ( m.getAddress() == "/test" ) cout << "Connection is working" << endl;
+        if ( m.getAddress() == "/test" ) cout << "Connection is working, SEND THE STATE" << endl;
         if ( m.getAddress() == "/projection" )	{
           
         //if (m.getArgAsInt32(5) != 666) video[m.getArgAsInt32(5)].setLoopState(OF_LOOP_NONE);
@@ -103,7 +103,7 @@ void testApp::update(){
         }
         // PRINT THE MESSAGE
           
-        cout << "/projection" << m.getArgAsInt32(0) << " " << m.getArgAsInt32(1) << " " << m.getArgAsInt32(2) << " " << m.getArgAsInt32(3) << " " << m.getArgAsInt32(4) << " " << m.getArgAsInt32(5) << " " << m.getArgAsInt32(6) << " " << m.getArgAsInt32(7) << " " << m.getArgAsInt32(8) << " " << m.getArgAsInt32(9) << " " << m.getArgAsInt32(10) << ")" << endl;
+        //cout << "/projection, " << m.getArgAsInt32(0) << " " << m.getArgAsInt32(1) << " " << m.getArgAsInt32(2) << " " << m.getArgAsInt32(3) << " " << m.getArgAsInt32(4) << " " << m.getArgAsInt32(5) << " " << m.getArgAsInt32(6) << " " << m.getArgAsInt32(7) << " " << m.getArgAsInt32(8) << " " << m.getArgAsInt32(9) << " " << m.getArgAsInt32(10) << ")" << endl;
           
       } 
       
