@@ -19,3 +19,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+This software made with openframeworks (checkout https://github.com/openframeworks/openFrameworks/blob/master/LICENSE.md) and with the following addons:
+- ofxMtlMapping2D (https://github.com/morethanlogic/ofxMtlMapping2D)
+- ofxPostGlitch (https://github.com/maxillacult/ofxPostGlitch)
+- ofxOsc
+- ofxXmlSettings
+- ofxMSAInteractiveObject
+- ofxUI
